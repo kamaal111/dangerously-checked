@@ -2,9 +2,7 @@
 name = "dangerously-checked"
 version = "0.1.0"
 description = "Add your description here"
-authors = [
-    { name = "Kamaal Farah", email = "kamaal.f1@gmail.com" }
-]
+authors = [{ name = "Kamaal Farah", email = "kamaal.f1@gmail.com" }]
 dependencies = []
 readme = "README.md"
 requires-python = ">= 3.8"
@@ -25,6 +23,7 @@ dev-dependencies = [
     "pytest-xdist>=3.6.1",
     "pytest-cov>=6.0.0",
     "typer>=0.15.1",
+    "pydantic>=2.10.5",
 ]
 
 [tool.hatch.metadata]

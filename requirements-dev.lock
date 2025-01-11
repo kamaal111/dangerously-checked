@@ -10,6 +10,8 @@
 #   universal: false
 
 -e file:.
+annotated-types==0.7.0
+    # via pydantic
 cfgv==3.4.0
     # via pre-commit
 click==8.1.8
@@ -42,6 +44,9 @@ platformdirs==4.3.6
 pluggy==1.5.0
     # via pytest
 pre-commit==4.0.1
+pydantic==2.10.5
+pydantic-core==2.27.2
+    # via pydantic
 pygments==2.19.1
     # via rich
 pytest==8.3.4
@@ -61,6 +66,8 @@ tree-sitter-python==0.23.6
 typer==0.15.1
 typing-extensions==4.12.2
     # via mypy
+    # via pydantic
+    # via pydantic-core
     # via typer
 virtualenv==20.28.1
     # via pre-commit
