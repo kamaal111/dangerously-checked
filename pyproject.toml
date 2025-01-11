@@ -31,4 +31,4 @@ dev-dependencies = [
 allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/dangerously_checked"]
+packages = ["src/dangerously_checked", "src/cli"]

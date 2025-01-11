@@ -7,11 +7,12 @@ PNPM_VERSION := "9.15.3"
 default:
     just --list --unsorted
 
+# Validate param types have been set
 validate-param-type-set filepath:
     #!/bin/zsh
 
     . .venv/bin/activate
-    python cli/main.py validate-param-type-set {{ filepath }}
+    python src/cli/main.py validate-param-type-set {{ filepath }}
 
 # Run Danger in CI
 danger-ci:

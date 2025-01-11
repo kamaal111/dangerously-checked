@@ -1,17 +1,11 @@
+from pathlib import Path
+
 import tree_sitter_python as tspython
 from tree_sitter import Language, Node, Parser, Tree
 
 PY_LANGUAGE = Language(tspython.language())
 
 parser = Parser(PY_LANGUAGE)
-
-
-code = """
-def example_function(param1: int, param2: str, param3, param4: float = 3.14):
-    pass
-"""
-
-tree = parser.parse(code.encode())
 
 
 def __get_function_parameters(node: Node, source_code: str):
@@ -67,10 +61,12 @@ def __extract_functions_with_params(tree: Tree, source_code: str):
     return functions
 
 
-functions = __extract_functions_with_params(tree, code)
-
-
-for function in functions:
-    print(f"Function: {function['function_name']}")
-    for param in function["parameters"]:
-        print(f"  - {param['name']}: {param['type_hint']}")
+def validate_param_type_set(filepath: str):
+    file = Path(filepath)
+    code = file.read_text()
+    tree = parser.parse(code.encode())
+    functions = __extract_functions_with_params(tree, code)
+    for function in functions:
+        print(f"Function: {function['function_name']}")
+        for param in function["parameters"]:
+            print(f"  - {param['name']}: {param['type_hint']}")

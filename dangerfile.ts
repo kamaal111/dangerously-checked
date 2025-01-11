@@ -1,4 +1,6 @@
 import { message, danger } from "danger";
 
-const modifiedMD = danger.git.modified_files.join("- ");
-message("🐸🐸🐸 Changed Files in this PR: \n - " + modifiedMD);
+const modifiedPythonFiles = danger.git.modified_files
+  .filter((filename) => filename.endsWith(".py"))
+  .join("- ");
+message("🐸🐸🐸 Changed Python files in this PR: \n - " + modifiedPythonFiles);
