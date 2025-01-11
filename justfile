@@ -7,6 +7,10 @@ PNPM_VERSION := "9.15.3"
 default:
     just --list --unsorted
 
+# Run Danger in CI
+danger-ci:
+    pnpm run danger ci
+
 # Run quality scripts with lint fixing
 quality-fix: lint-fix type-check
 

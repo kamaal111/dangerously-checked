@@ -6,5 +6,6 @@
     "tamasfe.even-better-toml",
     "ms-python.python",
     "charliermarsh.ruff",
+    "github.vscode-github-actions"
   ]
 }

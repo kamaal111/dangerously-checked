@@ -1,0 +1,52 @@
+name: Pull Requests
+on: [pull_request]
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: 15
+  PNPM_VERSION: 9
+
+jobs:
+  quality:
+    name: Quality
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install zsh
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zsh
+
+      - name: Git checkout
+        uses: actions/checkout@v4
+
+      - name: Install just
+        uses: taiki-e/install-action@just
+
+      - name: Install the latest version of rye
+        uses: eifinger/setup-rye@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Prepare for CI
+        run: just prepare
+
+      - name: Quality
+        run: just quality
+
+      - name: Run Danger
+        run: just danger-ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
