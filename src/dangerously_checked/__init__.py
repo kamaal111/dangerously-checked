@@ -1,2 +1,6 @@
+def greet(name):
+    return f"Hello {name}!"
+
+
 def hello() -> str:
-    return "Hello from safely-checked!"
+    return greet("general")
