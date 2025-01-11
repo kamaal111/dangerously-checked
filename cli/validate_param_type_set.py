@@ -14,10 +14,10 @@ def example_function(param1: int, param2: str, param3, param4: float = 3.14):
 tree = parser.parse(code.encode())
 
 
-def get_function_parameters(node: Node, source_code: str):
+def __get_function_parameters(node: Node, source_code: str):
     if node.type != "parameters":
         for child in node.children:
-            result = get_function_parameters(child, source_code)
+            result = __get_function_parameters(child, source_code)
             if result is not None:
                 return result
 
@@ -45,7 +45,7 @@ def get_function_parameters(node: Node, source_code: str):
     return params
 
 
-def extract_functions_with_params(tree: Tree, source_code: str):
+def __extract_functions_with_params(tree: Tree, source_code: str):
     functions = []
     root_node = tree.root_node
     for node in root_node.children:
@@ -58,14 +58,16 @@ def extract_functions_with_params(tree: Tree, source_code: str):
                 (c for c in node.children if c.type == "parameters"), None
             )
             params = (
-                get_function_parameters(params_node, source_code) if params_node else []
+                __get_function_parameters(params_node, source_code)
+                if params_node
+                else []
             )
             functions.append({"function_name": func_name, "parameters": params})
 
     return functions
 
 
-functions = extract_functions_with_params(tree, code)
+functions = __extract_functions_with_params(tree, code)
 
 
 for function in functions:
