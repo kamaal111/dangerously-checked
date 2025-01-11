@@ -80,24 +80,36 @@ install-pnpm:
 
 [private]
 install-node:
-    curl -fsSL https://fnm.vercel.app/install | bash
+    #!/bin/zsh
 
-    fnm completions --shell zsh
+    if ! command -v fnm &>/dev/null;
+    then
+        curl -fsSL https://fnm.vercel.app/install | bash
+
+        fnm completions --shell zsh
+    fi
+
     fnm install
 
 [private]
 install-rye:
     #!/bin/zsh
 
-    curl -sSf https://rye.astral.sh/get | RYE_INSTALL_OPTION="--yes"  bash
-
     . ~/.rye/env || true
 
-    mkdir -p ~/.zfunc
-    rye self completion -s zsh > ~/.zfunc/_rye
-
-    if [[ -n $ZSH_CUSTOM ]]
+    if ! command -v rye &>/dev/null;
     then
-        mkdir -p $ZSH_CUSTOM/plugins/rye
-        rye self completion -s zsh > $ZSH_CUSTOM/plugins/rye/_rye
+        echo "Installing rye ....."
+        curl -sSf https://rye.astral.sh/get | RYE_INSTALL_OPTION="--yes"  bash
+
+        . ~/.rye/env || true
+
+        mkdir -p ~/.zfunc
+        rye self completion -s zsh > ~/.zfunc/_rye
+
+        if [[ -n $ZSH_CUSTOM ]]
+        then
+            mkdir -p $ZSH_CUSTOM/plugins/rye
+            rye self completion -s zsh > $ZSH_CUSTOM/plugins/rye/_rye
+        fi
     fi

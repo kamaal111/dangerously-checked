@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "danger": "danger"
   },
@@ -10,6 +11,7 @@
   "author": "Kamaal Farah",
   "license": "ISC",
   "devDependencies": {
-    "danger": "^12.3.3"
+    "danger": "^12",
+    "prettier": "^3"
   }
 }

@@ -9,8 +9,11 @@ importers:
   .:
     devDependencies:
       danger:
-        specifier: ^12.3.3
+        specifier: ^12
         version: 12.3.3
+      prettier:
+        specifier: ^3
+        version: 3.4.2
 
 packages:
 
@@ -377,6 +380,11 @@ packages:
 
   pinpoint@1.1.0:
     resolution: {integrity: sha512-+04FTD9x7Cls2rihLlo57QDCcHoLBGn5Dk51SwtFBWkUWLxZaBXyNVpCw1S+atvE7GmnFjeaRZ0WLq3UYuqAdg==}
+
+  prettier@3.4.2:
+    resolution: {integrity: sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==}
+    engines: {node: '>=14'}
+    hasBin: true
 
   prettyjson@1.2.5:
     resolution: {integrity: sha512-rksPWtoZb2ZpT5OVgtmy0KHVM+Dca3iVwWY9ifwhcexfjebtgjg3wmrUt9PvJ59XIYBcknQeYHD8IAnVlh9lAw==}
@@ -868,6 +876,8 @@ snapshots:
   picomatch@2.3.1: {}
 
   pinpoint@1.1.0: {}
+
+  prettier@3.4.2: {}
 
   prettyjson@1.2.5:
     dependencies:
