@@ -7,19 +7,17 @@ const updatedPythonFiles = danger.git.created_files
   .filter(filepath => filepath.endsWith('.py'));
 
 async function main() {
-  const result = await Promise.all(
-    updatedPythonFiles.map(filepath =>
-      asyncExec(`just validate-param-type-set ${filepath}`)
-    )
+  const results = await Promise.all(
+    updatedPythonFiles.map(filepath => {
+      return asyncExec(`just validate-param-type-set ${filepath}`);
+    })
   );
 
-  console.log('result', result);
-
-  message(
-    '🐸🐸🐸 Changed Python files in this PR: \n - ' +
-      updatedPythonFiles.join('- ') +
-      result
-  );
+  for (let index = 0; index < results.length; index += 1) {
+    const result = results[index];
+    const filepath = updatedPythonFiles[index];
+    message(`${filepath}\n${result}`);
+  }
 }
 
 async function asyncExec(command, options = null) {
