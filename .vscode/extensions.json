@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "skellock.just",
+    "streetsidesoftware.code-spell-checker",
+    "eamodio.gitlens",
+    "tamasfe.even-better-toml",
+    "ms-python.python",
+    "charliermarsh.ruff",
+  ]
+}
