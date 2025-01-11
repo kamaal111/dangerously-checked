@@ -1,6 +1,6 @@
 import { exec } from 'node:child_process';
 
-import { message, danger } from 'danger';
+import { message, danger, fail } from 'danger';
 
 const updatedPythonFiles = danger.git.created_files
   .concat(danger.git.modified_files)
@@ -13,11 +13,38 @@ async function main() {
     })
   );
 
+  let hasFailed = false;
   for (let index = 0; index < results.length; index += 1) {
     const result = results[index];
     const filepath = updatedPythonFiles[index];
+    const wrongFunctions = {};
+    for (const { parameters, function_name: functionName } of JSON.parse(
+      result
+    )) {
+      for (const { type_hint: typeHint, name } of parameters) {
+        if (typeHint == null) {
+          wrongFunctions[functionName] = wrongFunctions[functionName] ?? [];
+          wrongFunctions[functionName].push(name);
+        }
+      }
+    }
 
-    message(`${filepath}\n${JSON.parse(result)}`);
+    const entries = Object.entries(wrongFunctions);
+    if (entries.length > 0) {
+      let markdown = `File: ${filepath} includes functions without an type hint`;
+      for (const [functionName, parameterNames] of entries) {
+        markdown += `\n   Function: ${functionName}`;
+        for (const parameterName of parameterNames) {
+          markdown += `\n     Parameter: ${parameterName}`;
+        }
+      }
+      fail(markdown);
+      hasFailed += 1;
+    }
+  }
+
+  if (hasFailed) {
+    message('All parameters are typed');
   }
 }
 
