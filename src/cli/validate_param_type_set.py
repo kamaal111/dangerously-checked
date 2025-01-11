@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import tree_sitter_python as tspython
@@ -66,7 +67,5 @@ def validate_param_type_set(filepath: str):
     code = file.read_text()
     tree = parser.parse(code.encode())
     functions = __extract_functions_with_params(tree, code)
-    for function in functions:
-        print(f"Function: {function['function_name']}")
-        for param in function["parameters"]:
-            print(f"  - {param['name']}: {param['type_hint']}")
+
+    print(json.dumps(functions))
