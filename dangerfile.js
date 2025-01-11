@@ -16,7 +16,8 @@ async function main() {
   for (let index = 0; index < results.length; index += 1) {
     const result = results[index];
     const filepath = updatedPythonFiles[index];
-    message(`${filepath}\n${result}`);
+
+    message(`${filepath}\n${JSON.parse(result)}`);
   }
 }
 
