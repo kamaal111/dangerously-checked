@@ -1,2 +1,2 @@
 def hello() -> str:
-    return "Hello from dangerously-checked!"
+    return "Hello from safely-checked!"
