@@ -9,7 +9,7 @@ const UPDATED_FILES = danger.git.created_files.concat(
 const HOOKS = {
   parametersSet: {
     validation: validateParameterTypesSet,
-    successMessage: 'All parameters are typed',
+    successMessage: '✅ All parameters are typed',
   },
 };
 const HOOK_ENTRIES = Object.entries(HOOKS);
@@ -21,21 +21,23 @@ async function main() {
   }));
   const validations = await Promise.all(validationHooks);
   const validatedValues = validations.reduce((acc, { key, values }) => {
-    acc[key] = values;
-    return acc;
+    return { ...acc, [key]: values };
   }, {});
   for (const [key, values] of Object.entries(validatedValues)) {
-    if (validationIsValid(values)) {
-      const hook = HOOKS[key];
+    const hook = HOOKS[key];
+    const isValid = validationIsValid(values);
+    if (isValid) {
       message(hook.successMessage);
     }
   }
 }
 
 function validationIsValid(validations) {
-  validations == null ||
-    validations.length === 0 ||
-    validations.every(valid => valid);
+  for (const value of validations ?? []) {
+    if (!value) return false;
+  }
+
+  return true;
 }
 
 async function validateParameterTypesSet(filepath) {
@@ -55,19 +57,17 @@ async function validateParameterTypesSet(filepath) {
   }
 
   const entries = Object.entries(wrongFunctions);
-  if (entries.length > 0) {
-    let markdown = `File: ${filepath} includes functions without an type hint`;
-    for (const [functionName, parameterNames] of entries) {
-      markdown += `\nFunction: ${functionName}`;
-      for (const parameterName of parameterNames) {
-        markdown += `\nParameter: ${parameterName}`;
-      }
-    }
-    fail(markdown);
-    return false;
-  }
+  if (entries.length === 0) return true;
 
-  return true;
+  let markdown = `File: ${filepath} includes functions without an type hint`;
+  for (const [functionName, parameterNames] of entries) {
+    markdown += `\nFunction: ${functionName}`;
+    for (const parameterName of parameterNames) {
+      markdown += `\nParameter: ${parameterName}`;
+    }
+  }
+  fail(markdown, filepath);
+  return false;
 }
 
 function isPythonFile(filepath) {
