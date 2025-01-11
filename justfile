@@ -1,4 +1,5 @@
 set export
+set dotenv-load
 
 PNPM_VERSION := "9.15.3"
 
